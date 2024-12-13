@@ -46,11 +46,11 @@
     }
 
     // Set the Referral ID on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      const referralIdField = document.getElementById('referralId');
-      const referralId = getReferralId();
-      referralIdField.value = referralId; // Populate the hidden field
-    });
+   function getReferralId() {
+    const urlParams = new URLSearchParams(window.top.location.search); // Use `window.top` for parent URL
+    return urlParams.get('ref') || ''; // Default to an empty string
+}
+
 
     function nextQuestion(currentIndex) {
       const current = document.getElementById(`question${currentIndex}`);
