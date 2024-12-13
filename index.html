@@ -16,6 +16,9 @@
 </head>
 <body>
   <form id="questionForm" onsubmit="submitForm(event)" method="POST" action="https://script.google.com/macros/s/XYZ12345/exec">
+    <!-- Hidden field for Referral ID -->
+    <input type="hidden" id="referralId" name="referralId" value="">
+
     <div class="question active" id="question1">
       <label for="q1">What is your name?</label>
       <input type="text" id="q1" name="q1" required>
@@ -35,6 +38,19 @@
 
   <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbzWtbjBOoHxkCi7i03SlNVQ8TlS1-It7B8nTkAPfTKNDAM72WnRL91cOVs6S056EC1Tog/exec'; // Replace with your Apps Script URL
+
+    // Extract the Referral ID from the URL
+    function getReferralId() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('ref') || ''; // Default to an empty string if no referral ID
+    }
+
+    // Set the Referral ID on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const referralIdField = document.getElementById('referralId');
+      const referralId = getReferralId();
+      referralIdField.value = referralId; // Populate the hidden field
+    });
 
     function nextQuestion(currentIndex) {
       const current = document.getElementById(`question${currentIndex}`);
