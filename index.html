@@ -40,10 +40,12 @@
     const scriptURL = 'https://script.google.com/macros/s/AKfycbzWtbjBOoHxkCi7i03SlNVQ8TlS1-It7B8nTkAPfTKNDAM72WnRL91cOVs6S056EC1Tog/exec'; // Replace with your Apps Script URL
 
     // Extract the Referral ID from the URL
-    function getReferralId() {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get('ref') || ''; // Default to an empty string if no referral ID
-    }
+document.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const referralId = urlParams.get('ref') || "No Ref"; // Default to "No Ref" if missing
+  document.getElementById('referralId').value = referralId;
+});
+
 
     // Set the Referral ID on page load
    function getReferralId() {
@@ -76,5 +78,14 @@
       }
     }
   </script>
+  <script>
+  // Extract referral ID from URL and populate the hidden field
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const referralId = urlParams.get('ref') || "No Ref"; // Default to "No Ref" if missing
+    document.getElementById('referralId').value = referralId;
+  });
+</script>
+
 </body>
 </html>
