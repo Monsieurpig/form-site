@@ -37,22 +37,16 @@
   </form>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzWtbjBOoHxkCi7i03SlNVQ8TlS1-It7B8nTkAPfTKNDAM72WnRL91cOVs6S056EC1Tog/exec'; // Replace with your Apps Script URL
+    // Clean and concise method to extract and set referral ID
+    document.addEventListener('DOMContentLoaded', () => {
+      const getReferralId = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('ref') || "No Ref"; // Default to "No Ref" if missing
+      };
 
-    // Extract the Referral ID from the URL
-document.addEventListener('DOMContentLoaded', () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const referralId = urlParams.get('ref') || "No Ref"; // Default to "No Ref" if missing
-  document.getElementById('referralId').value = referralId;
-});
-
-
-    // Set the Referral ID on page load
-   function getReferralId() {
-    const urlParams = new URLSearchParams(window.top.location.search); // Use `window.top` for parent URL
-    return urlParams.get('ref') || ''; // Default to an empty string
-}
-
+      // Populate the hidden field with the referral ID
+      document.getElementById('referralId').value = getReferralId();
+    });
 
     function nextQuestion(currentIndex) {
       const current = document.getElementById(`question${currentIndex}`);
@@ -62,30 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         next.classList.add('active');
       }
     }
-
-    async function submitForm(event) {
-      event.preventDefault();
-      const form = document.getElementById('questionForm');
-      const formData = new FormData(form);
-
-      try {
-        const response = await fetch(scriptURL, { method: 'POST', body: formData });
-        const result = await response.text();
-        alert(result); // Success message
-        form.reset(); // Optionally reset the form
-      } catch (error) {
-        console.error('Error!', error.message);
-      }
-    }
   </script>
-  <script>
-  // Extract referral ID from URL and populate the hidden field
-  document.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const referralId = urlParams.get('ref') || "No Ref"; // Default to "No Ref" if missing
-    document.getElementById('referralId').value = referralId;
-  });
-</script>
-
 </body>
 </html>
+
