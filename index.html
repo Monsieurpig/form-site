@@ -1,51 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>One Question at a Time</title>
-  <style>
-    .question {
-      display: none;
-    }
-    .question.active {
-      display: block;
-    }
-    button {
-      margin-top: 10px;
-    }
-  </style>
+  
+  <!-- Link to the external CSS file -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <form id="questionForm" method="POST" action="https://script.google.com/macros/s/AKfycbzWtbjBOoHxkCi7i03SlNVQ8TlS1-It7B8nTkAPfTKNDAM72WnRL91cOVs6S056EC1Tog/exec">
-    <!-- Hidden field for Referral ID -->
-    <input type="hidden" id="referralId" name="referralId" value="">
 
-    <div class="question active" id="question1">
-      <label for="q1">What is your name?</label>
-      <input type="text" id="q1" name="q1" required>
-      <button type="button" onclick="nextQuestion(1)">Next</button>
-    </div>
-    <div class="question" id="question2">
-      <label for="q2">What is your favorite color?</label>
-      <input type="text" id="q2" name="q2" required>
-      <button type="button" onclick="nextQuestion(2)">Next</button>
-    </div>
-    <div class="question" id="question3">
-      <label for="q3">What is your favorite animal?</label>
-      <input type="text" id="q3" name="q3" required>
-      <button type="submit">Submit</button>
-    </div>
-  </form>
+  <div class="form-container">
+    <form id="questionForm" method="POST" action="https://script.google.com/macros/s/AKfycbzWtbjBOoHxkCi7i03SlNVQ8TlS1-It7B8nTkAPfTKNDAM72WnRL91cOVs6S056EC1Tog/exec">
+      <!-- Hidden field for Referral ID -->
+      <input type="hidden" id="referralId" name="referralId" value="">
+
+      <h2>Tell us more about yourself</h2>
+
+      <div class="question active" id="question1">
+        <label for="q1">What is your name?</label>
+        <input type="text" id="q1" name="q1" required>
+        <button type="button" class="next-button" onclick="nextQuestion(1)">Next</button>
+      </div>
+
+      <div class="question" id="question2">
+        <label for="q2">What is your favorite color?</label>
+        <input type="text" id="q2" name="q2" required>
+        <button type="button" class="next-button" onclick="nextQuestion(2)">Next</button>
+        <button type="button" class="back-button" onclick="previousQuestion(2)">Back</button>
+      </div>
+
+      <div class="question" id="question3">
+        <label for="q3">What is your favorite animal?</label>
+        <input type="text" id="q3" name="q3" required>
+        <button type="submit">Submit</button>
+        <button type="button" class="back-button" onclick="previousQuestion(3)">Back</button>
+      </div>
+
+    </form>
+  </div>
 
   <script>
-    // Clean and concise method to extract and set referral ID
     document.addEventListener('DOMContentLoaded', () => {
-      const getReferralId = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('ref') || "No Ref"; // Default to "No Ref" if missing
-      };
-
-      // Populate the hidden field with the referral ID
-      document.getElementById('referralId').value = getReferralId();
+      // Extract the referral ID from the URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const referralId = urlParams.get('ref') || "No Ref"; // Default to "No Ref" if missing
+      document.getElementById('referralId').value = referralId;
     });
 
     function nextQuestion(currentIndex) {
@@ -56,7 +56,16 @@
         next.classList.add('active');
       }
     }
+
+    function previousQuestion(currentIndex) {
+      const current = document.getElementById(`question${currentIndex}`);
+      const previous = document.getElementById(`question${currentIndex - 1}`);
+      if (current && previous) {
+        current.classList.remove('active');
+        previous.classList.add('active');
+      }
+    }
   </script>
+
 </body>
 </html>
-
