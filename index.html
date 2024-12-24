@@ -8,64 +8,88 @@
   <!-- Link to the external CSS file -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<div class="form-container">
+  <form id="questionForm" method="POST" action="https://script.google.com/macros/s/AKfycbzWtbjBOoHxkCi7i03SlNVQ8TlS1-It7B8nTkAPfTKNDAM72WnRL91cOVs6S056EC1Tog/exec">
+    <!-- Hidden field for Referral ID -->
+    <input type="hidden" id="referralId" name="referralId" value="">
 
-  <div class="form-container">
-    <form id="questionForm" method="POST" action="https://script.google.com/macros/s/AKfycbzWtbjBOoHxkCi7i03SlNVQ8TlS1-It7B8nTkAPfTKNDAM72WnRL91cOVs6S056EC1Tog/exec">
-      <!-- Hidden field for Referral ID -->
-      <input type="hidden" id="referralId" name="referralId" value="">
+    <h2>Tell us more about yourself</h2>
 
-      <h2>Tell us more about yourself</h2>
+    <!-- Question 1: Name -->
+    <div class="question active" id="question1">
+      <label for="q1">Enter your name</label>
+      <input type="text" id="q1" name="q1" required>
+      <button type="button" class="next-button" onclick="nextQuestion(1)">Next</button>
+    </div>
 
-      <div class="question active" id="question1">
-        <label for="q1">Enter your name</label>
-        <input type="text" id="q1" name="q1" required>
-        <button type="button" class="next-button" onclick="nextQuestion(1)">Next</button>
-      </div>
+    <!-- Question 2: Phone Number -->
+    <div class="question" id="question2">
+      <label for="q2">Enter your phone number</label>
+      <input type="text" id="q2" name="q2" required>
+      <button type="button" class="next-button" onclick="nextQuestion(2)">Next</button>
+      <button type="button" class="back-button" onclick="previousQuestion(2)">Back</button>
+    </div>
 
-      <div class="question" id="question2">
-        <label for="q2">Enter your phone number</label>
-        <input type="text" id="q2" name="q2" required>
-        <button type="button" class="next-button" onclick="nextQuestion(2)">Next</button>
-        <button type="button" class="back-button" onclick="previousQuestion(2)">Back</button>
-      </div>
+    <!-- Question 3: Work Type -->
+    <div class="question" id="question3">
+      <label for="q3">What kind of work are you looking for?</label>
+      <select id="q3" name="q3" required>
+        <option value="Option1">Option 1</option>
+        <option value="Option2">Option 2</option>
+        <option value="Option3">Option 3</option>
+        <option value="Option4">Option 4</option>
+        <option value="Option5">Option 5</option>
+      </select>
+      <button type="button" class="next-button" onclick="nextQuestion(3)">Next</button>
+      <button type="button" class="back-button" onclick="previousQuestion(3)">Back</button>
+    </div>
 
-      <div class="question" id="question3">
-        <label for="q3">What kind of work are you looking for?</label>
-        <input type="text" id="q3" name="q3" required>
-        <button type="submit">Submit</button>
-        <button type="button" class="back-button" onclick="previousQuestion(3)">Back</button>
-      </div>
+    <!-- Question 4: Preferred Contact Method -->
+    <div class="question" id="question4">
+      <label for="q4">How would you like us to contact you?</label>
+      <select id="q4" name="q4" onchange="handleContactMethod(this.value)" required>
+        <option value="">Select an option</option>
+        <option value="call">Call me</option>
+        <option value="text">Send me a text</option>
+      </select>
+      <button type="button" class="next-button" onclick="nextQuestion(4)">Next</button>
+      <button type="button" class="back-button" onclick="previousQuestion(4)">Back</button>
+    </div>
 
-    </form>
-  </div>
+    <!-- Question 5: Call Availability -->
+    <div class="question" id="question5" style="display: none;">
+      <p>You can call me between 9 AM and 5 PM, Monday through Friday.</p>
+      <button type="submit">Submit</button>
+      <button type="button" class="back-button" onclick="previousQuestion(5)">Back</button>
+    </div>
+  </form>
+</div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Extract the referral ID from the URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const referralId = urlParams.get('ref') || "No Ref"; // Default to "No Ref" if missing
-      document.getElementById('referralId').value = referralId;
-    });
+<script>
+  function nextQuestion(current) {
+    document.getElementById(`question${current}`).classList.remove('active');
+    document.getElementById(`question${current}`).style.display = 'none';
+    const next = current + 1;
+    document.getElementById(`question${next}`).classList.add('active');
+    document.getElementById(`question${next}`).style.display = 'block';
+  }
 
-    function nextQuestion(currentIndex) {
-      const current = document.getElementById(`question${currentIndex}`);
-      const next = document.getElementById(`question${currentIndex + 1}`);
-      if (current && next) {
-        current.classList.remove('active');
-        next.classList.add('active');
-      }
+  function previousQuestion(current) {
+    document.getElementById(`question${current}`).classList.remove('active');
+    document.getElementById(`question${current}`).style.display = 'none';
+    const previous = current - 1;
+    document.getElementById(`question${previous}`).classList.add('active');
+    document.getElementById(`question${previous}`).style.display = 'block';
+  }
+
+  function handleContactMethod(value) {
+    if (value === 'call') {
+      document.getElementById('question5').style.display = 'block';
+    } else {
+      document.getElementById('question5').style.display = 'none';
     }
-
-    function previousQuestion(currentIndex) {
-      const current = document.getElementById(`question${currentIndex}`);
-      const previous = document.getElementById(`question${currentIndex - 1}`);
-      if (current && previous) {
-        current.classList.remove('active');
-        previous.classList.add('active');
-      }
-    }
-  </script>
+  }
+</script>
 
 </body>
 </html>
