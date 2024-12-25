@@ -13,7 +13,7 @@
     <!-- Hidden field for Referral ID -->
     <input type="hidden" id="referralId" name="referralId" value="">
 
-    <h2>Tell us more about yourself</h2>
+    <h2>Please provide your contact and job information</h2>
 
     <!-- Question 1: Name -->
     <div class="question active" id="question1">
@@ -34,11 +34,11 @@
     <div class="question" id="question3">
       <label for="q3">What kind of work are you looking for?</label>
       <select id="q3" name="q3" required>
-        <option value="Option1">Option 1</option>
-        <option value="Option2">Option 2</option>
-        <option value="Option3">Option 3</option>
-        <option value="Option4">Option 4</option>
-        <option value="Option5">Option 5</option>
+        <option value="Option1">Driveway Cleaning</option>
+        <option value="Option2">Clean Brick</option>
+        <option value="Option3">Clean Concrete</option>
+        <option value="Option4">Clean Wood</option>
+        <option value="Option5">Other (please tell me more when you speak with me)</option>
       </select>
       <button type="button" class="next-button" onclick="nextQuestion(3)">Next</button>
       <button type="button" class="back-button" onclick="previousQuestion(3)">Back</button>
@@ -46,7 +46,7 @@
 
     <!-- Question 4: Preferred Contact Method -->
     <div class="question" id="question4">
-      <label for="q4">How would you like us to contact you?</label>
+      <label for="q4">How would you like to contact me?</label>
       <select id="q4" name="q4" required>
         <option value="">Select an option</option>
         <option value="call">Call me</option>
@@ -86,9 +86,9 @@
     const messageText = document.getElementById('messageText');
 
     if (contactMethod === 'call') {
-      messageText.textContent = "You can call me between 9 AM and 5 PM, Monday through Friday.";
+      messageText.textContent = "Call me at 540-235-2260 between 3:30 and 10:30 pm on weekdays, and anytime during the weekend";
     } else if (contactMethod === 'text') {
-      messageText.textContent = "We will send you a text shortly. Thank you!";
+      messageText.textContent = "Text me at 540-235-2260, thank you!";
     } else {
       messageText.textContent = "Please select a valid contact method.";
     }
