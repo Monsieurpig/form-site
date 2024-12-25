@@ -62,11 +62,18 @@
       <button type="submit">Submit</button>
       <button type="button" class="back-button" onclick="previousQuestion(5)">Back</button>
     </div>
+
+    <!-- Question 6: Text Confirmation -->
+    <div class="question" id="question6" style="display: none;">
+      <p>We will send you a text shortly. Thank you!</p>
+      <button type="submit">Submit</button>
+      <button type="button" class="back-button" onclick="previousQuestion(4)">Back</button>
+    </div>
   </form>
 </div>
 
 <script>
-  function nextQuestion(current) {
+   function nextQuestion(current) {
     document.getElementById(`question${current}`).classList.remove('active');
     document.getElementById(`question${current}`).style.display = 'none';
     const next = current + 1;
@@ -85,8 +92,13 @@
   function handleContactMethod(value) {
     if (value === 'call') {
       document.getElementById('question5').style.display = 'block';
+      document.getElementById('question6').style.display = 'none';
+    } else if (value === 'text') {
+      document.getElementById('question6').style.display = 'block';
+      document.getElementById('question5').style.display = 'none';
     } else {
       document.getElementById('question5').style.display = 'none';
+      document.getElementById('question6').style.display = 'none';
     }
   }
 </script>
