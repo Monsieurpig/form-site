@@ -68,13 +68,18 @@
   // Function to get the referral ID from the URL
   function getReferralIdFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('ref') || ''; // Return the ref param value, or empty string if not present
+    return urlParams.get('ref') || ''; // If ref exists, return its value; else return an empty string
   }
 
   // Set the referralId value when the page loads
   window.onload = function() {
     const referralId = getReferralIdFromUrl();
-    document.getElementById('referralId').value = referralId;
+    // Set the referral ID to the hidden input field
+    if (referralId) {
+      document.getElementById('referralId').value = referralId;
+    } else {
+      document.getElementById('referralId').value = ''; // Ensure the field is blank if no referral ID
+    }
   };
 
   // Function to go to the next question
