@@ -8,37 +8,38 @@
   <!-- Link to the external CSS file -->
   <link rel="stylesheet" href="styles.css">
 </head>
+<body>
 <div class="form-container">
   <form id="questionForm" method="POST" action="https://script.google.com/macros/s/AKfycbzWtbjBOoHxkCi7i03SlNVQ8TlS1-It7B8nTkAPfTKNDAM72WnRL91cOVs6S056EC1Tog/exec">
     <!-- Hidden field for Referral ID -->
-    <input type="hidden" id="referralId" name="referralId" value="">
+    <input type="hidden" id="referralId" name="referralId" value="exampleReferral123">
 
     <h2>Please provide your contact and job information</h2>
 
     <!-- Question 1: Name -->
     <div class="question active" id="q1">
-      <label for="q1">Enter your name</label>
-      <input type="text" id="q1" name="q1" required>
+      <label for="name">Enter your name</label>
+      <input type="text" id="name" name="q1" required>
       <button type="button" class="next-button" onclick="nextQuestion(1)">Next</button>
     </div>
 
     <!-- Question 2: Phone Number -->
     <div class="question" id="q2">
-      <label for="q2">Enter your phone number</label>
-      <input type="text" id="q2" name="q2" required>
+      <label for="phone">Enter your phone number</label>
+      <input type="text" id="phone" name="q2" required>
       <button type="button" class="next-button" onclick="nextQuestion(2)">Next</button>
       <button type="button" class="back-button" onclick="previousQuestion(2)">Back</button>
     </div>
 
     <!-- Question 3: Work Type -->
     <div class="question" id="q3">
-      <label for="q3">What kind of work are you looking for?</label>
-      <select id="q3" name="q3" required>
-        <option value="Option1">Driveway Cleaning</option>
-        <option value="Option2">Clean Brick</option>
-        <option value="Option3">Clean Concrete</option>
-        <option value="Option4">Clean Wood</option>
-        <option value="Option5">Other (please tell me more when you speak with me)</option>
+      <label for="workType">What kind of work are you looking for?</label>
+      <select id="workType" name="q3" required>
+        <option value="Driveway Cleaning">Driveway Cleaning</option>
+        <option value="Clean Brick">Clean Brick</option>
+        <option value="Clean Concrete">Clean Concrete</option>
+        <option value="Clean Wood">Clean Wood</option>
+        <option value="Other">Other (please tell me more when you speak with me)</option>
       </select>
       <button type="button" class="next-button" onclick="nextQuestion(3)">Next</button>
       <button type="button" class="back-button" onclick="previousQuestion(3)">Back</button>
@@ -46,13 +47,13 @@
 
     <!-- Question 4: Preferred Contact Method -->
     <div class="question" id="q4">
-      <label for="q4">How would you like to contact me?</label>
-      <select id="q4" name="q4" required>
+      <label for="contactMethod">How would you like to contact me?</label>
+      <select id="contactMethod" name="q4" required>
         <option value="">Select an option</option>
         <option value="call">I want to call you</option>
         <option value="text">I want to text you</option>
       </select>
-      <button type="button" class="next-button" onclick="showMessage()">Submit</button>
+      <button type="submit" class="next-button">Submit</button>
       <button type="button" class="back-button" onclick="previousQuestion(4)">Back</button>
     </div>
 
@@ -80,25 +81,47 @@
     document.getElementById(`q${previous}`).style.display = 'block';
   }
 
-  function showMessage() {
-    const contactMethod = document.getElementById('q4').value;
-    const message = document.getElementById('message');
-    const messageText = document.getElementById('messageText');
+  document.getElementById("questionForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent the default form submission
 
-    if (contactMethod === 'call') {
-      messageText.textContent = "Call me at 540-235-2260 between 3:30 and 10:30 pm on weekdays, and anytime during the weekend";
-    } else if (contactMethod === 'text') {
-      messageText.textContent = "Text me at 540-235-2260, thank you!";
-    } else {
-      messageText.textContent = "Please select a valid contact method.";
-    }
+    const formData = new FormData(this);
 
-    document.getElementById('q4').classList.remove('active');
-    document.getElementById('q4').style.display = 'none';
-    message.classList.add('active');
-    message.style.display = 'block';
-  }
+    fetch(this.action, {
+      method: "POST",
+      body: formData,
+    })
+      .then(response => response.text())
+      .then(text => {
+        console.log("Response from server:", text);
+
+        // Display thank-you message
+        const contactMethod = document.getElementById("contactMethod").value;
+        const message = document.getElementById("message");
+        const messageText = document.getElementById("messageText");
+
+        if (contactMethod === "call") {
+          messageText.textContent = "Call me at 540-235-2260 between 3:30 and 10:30 pm on weekdays, and anytime during the weekend.";
+        } else if (contactMethod === "text") {
+          messageText.textContent = "Text me at 540-235-2260, thank you!";
+        } else {
+          messageText.textContent = "Thank you for completing the form!";
+        }
+
+        // Hide all form questions and show the message
+        const formQuestions = document.querySelectorAll(".question");
+        formQuestions.forEach(question => {
+          question.style.display = "none";
+          question.classList.remove("active");
+        });
+
+        message.classList.add("active");
+        message.style.display = "block";
+      })
+      .catch(error => {
+        console.error("Error submitting form:", error);
+        alert("An error occurred. Please try again later.");
+      });
+  });
 </script>
-
 </body>
 </html>
