@@ -47,33 +47,24 @@
     <!-- Question 4: Preferred Contact Method -->
     <div class="question" id="question4">
       <label for="q4">How would you like us to contact you?</label>
-      <select id="q4" name="q4" onchange="handleContactMethod(this.value)" required>
+      <select id="q4" name="q4" required>
         <option value="">Select an option</option>
         <option value="call">Call me</option>
         <option value="text">Send me a text</option>
       </select>
-      <button type="button" class="next-button" onclick="nextQuestion(4)">Next</button>
+      <button type="button" class="next-button" onclick="showMessage()">Submit</button>
       <button type="button" class="back-button" onclick="previousQuestion(4)">Back</button>
     </div>
 
-    <!-- Question 5: Call Availability -->
-    <div class="question" id="question5" style="display: none;">
-      <p>You can call me between 9 AM and 5 PM, Monday through Friday.</p>
-      <button type="submit">Submit</button>
-      <button type="button" class="back-button" onclick="previousQuestion(5)">Back</button>
-    </div>
-
-    <!-- Question 6: Text Confirmation -->
-    <div class="question" id="question6" style="display: none;">
-      <p>We will send you a text shortly. Thank you!</p>
-      <button type="submit">Submit</button>
-      <button type="button" class="back-button" onclick="previousQuestion(4)">Back</button>
+    <!-- Message Section -->
+    <div class="question" id="message" style="display: none;">
+      <p id="messageText"></p>
     </div>
   </form>
 </div>
 
 <script>
-   function nextQuestion(current) {
+  function nextQuestion(current) {
     document.getElementById(`question${current}`).classList.remove('active');
     document.getElementById(`question${current}`).style.display = 'none';
     const next = current + 1;
@@ -89,17 +80,23 @@
     document.getElementById(`question${previous}`).style.display = 'block';
   }
 
-  function handleContactMethod(value) {
-    if (value === 'call') {
-      document.getElementById('question5').style.display = 'block';
-      document.getElementById('question6').style.display = 'none';
-    } else if (value === 'text') {
-      document.getElementById('question6').style.display = 'block';
-      document.getElementById('question5').style.display = 'none';
+  function showMessage() {
+    const contactMethod = document.getElementById('q4').value;
+    const message = document.getElementById('message');
+    const messageText = document.getElementById('messageText');
+
+    if (contactMethod === 'call') {
+      messageText.textContent = "You can call me between 9 AM and 5 PM, Monday through Friday.";
+    } else if (contactMethod === 'text') {
+      messageText.textContent = "We will send you a text shortly. Thank you!";
     } else {
-      document.getElementById('question5').style.display = 'none';
-      document.getElementById('question6').style.display = 'none';
+      messageText.textContent = "Please select a valid contact method.";
     }
+
+    document.getElementById('question4').classList.remove('active');
+    document.getElementById('question4').style.display = 'none';
+    message.classList.add('active');
+    message.style.display = 'block';
   }
 </script>
 
