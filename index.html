@@ -12,7 +12,7 @@
 <div class="form-container">
   <form id="questionForm" method="POST" action="https://script.google.com/macros/s/AKfycbybIu4O0BUW8nZZz_SBZUQpxNis817UHR-F0YXQ-oHuRerescMUAuvgdpq3pcgqrhn3WQ/exec">
     <!-- Hidden field for Referral ID -->
-    <input type="hidden" id="referralId" name="referralId" value="exampleReferral123">
+    <input type="hidden" id="referralId" name="referralId" value="">
 
     <h2>Please provide your contact and job information</h2>
 
@@ -65,6 +65,19 @@
 </div>
 
 <script>
+  // Function to get the referral ID from the URL
+  function getReferralIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('ref') || ''; // Return the ref param value, or empty string if not present
+  }
+
+  // Set the referralId value when the page loads
+  window.onload = function() {
+    const referralId = getReferralIdFromUrl();
+    document.getElementById('referralId').value = referralId;
+  };
+
+  // Function to go to the next question
   function nextQuestion(current) {
     document.getElementById(`q${current}`).classList.remove('active');
     document.getElementById(`q${current}`).style.display = 'none';
@@ -73,6 +86,7 @@
     document.getElementById(`q${next}`).style.display = 'block';
   }
 
+  // Function to go to the previous question
   function previousQuestion(current) {
     document.getElementById(`q${current}`).classList.remove('active');
     document.getElementById(`q${current}`).style.display = 'none';
@@ -81,6 +95,7 @@
     document.getElementById(`q${previous}`).style.display = 'block';
   }
 
+  // Handle form submission
   document.getElementById("questionForm").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevent the default form submission
 
