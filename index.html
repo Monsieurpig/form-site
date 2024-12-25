@@ -65,19 +65,19 @@
 
 <script>
   function nextQuestion(current) {
-    document.getElementById(`question${current}`).classList.remove('active');
-    document.getElementById(`question${current}`).style.display = 'none';
+    document.getElementById(`q${current}`).classList.remove('active');
+    document.getElementById(`q${current}`).style.display = 'none';
     const next = current + 1;
-    document.getElementById(`question${next}`).classList.add('active');
-    document.getElementById(`question${next}`).style.display = 'block';
+    document.getElementById(`q${next}`).classList.add('active');
+    document.getElementById(`q${next}`).style.display = 'block';
   }
 
   function previousQuestion(current) {
-    document.getElementById(`question${current}`).classList.remove('active');
-    document.getElementById(`question${current}`).style.display = 'none';
+    document.getElementById(`q${current}`).classList.remove('active');
+    document.getElementById(`q${current}`).style.display = 'none';
     const previous = current - 1;
-    document.getElementById(`question${previous}`).classList.add('active');
-    document.getElementById(`question${previous}`).style.display = 'block';
+    document.getElementById(`q${previous}`).classList.add('active');
+    document.getElementById(`q${previous}`).style.display = 'block';
   }
 
   function showMessage() {
@@ -93,8 +93,8 @@
       messageText.textContent = "Please select a valid contact method.";
     }
 
-    document.getElementById('question4').classList.remove('active');
-    document.getElementById('question4').style.display = 'none';
+    document.getElementById('q4').classList.remove('active');
+    document.getElementById('q4').style.display = 'none';
     message.classList.add('active');
     message.style.display = 'block';
   }
